@@ -1,2 +1,2 @@
 # activeMQ
-activeMQ消息队列
+activeMQ消息队列学习案例
