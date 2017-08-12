@@ -1,8 +1,10 @@
 package com.szkingdom.productor;
 
 import org.apache.activemq.*;
+import org.apache.activemq.broker.region.*;
 
 import javax.jms.*;
+import javax.jms.Destination;
 
 /******************************************************************************
  * Copyright (C) 1998-至今, SHENZHEN KINGDOM Co., Ltd.
@@ -38,12 +40,16 @@ public class ActiveMQProducer {
             //4、创建session，使用自动确认的方式
             session = connection.createSession(Boolean.TRUE,Session.AUTO_ACKNOWLEDGE);
             //5、创建消息目的地。P2P消息模式中目的地是一个队列
-            Destination destination = session.createQueue("firstQueue");
+            //5.1 P2P模式
+            //Destination destination = session.createQueue("firstQueue");
+
+            //5.2 pub/sub
+            Destination destination = session.createTopic("firstTopic");
             //6、创建生产者
             MessageProducer producer =session.createProducer(destination);
             //7、发送消息
             for (int i=0;i<10;i++){
-                TextMessage message = session.createTextMessage("发送消息到ActiveMQ"+i);
+                TextMessage message = session.createTextMessage("message"+i);
                 producer.send(message);
                 System.out.println(message.getText());
             }

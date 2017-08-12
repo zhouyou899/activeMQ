@@ -2,6 +2,7 @@ package com.szkingdom.consumer;
 
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
+import sun.security.krb5.internal.crypto.Des;
 
 import javax.jms.*;
 
@@ -39,14 +40,20 @@ public class ActiveMQConsumer {
             //4、创建session，使用自动确认的方式
             session = connection.createSession(Boolean.FALSE, Session.AUTO_ACKNOWLEDGE);
             //5、创建消息目的地，连接消息队列
-            Destination destination = session.createQueue("firstQueue");
+            //5.1 p2p模式
+            //Destination destination = session.createQueue("firstQueue");
+
+            //5.2 pus/sub模式
+            Destination destination = session.createTopic("firstTopic");
             //6、创建消费者
             MessageConsumer consumer = session.createConsumer(destination);
+
+            System.out.println("消费者启动成功！");
             //7、接收消息
             while (true) {
                 TextMessage textMessage = (TextMessage) consumer.receive(3000);
                 if (textMessage!=null){
-                    System.out.println(textMessage.getText());
+                    System.out.println("消费消息："+textMessage.getText());
                 }
             }
         } catch (JMSException e) {
