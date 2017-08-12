@@ -21,6 +21,7 @@ public class ProducerApp {
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring-activeMQ-producer.xml");
         ActiveMQProducer producer = (ActiveMQProducer)context.getBean("producer");
+        System.out.println("生产者启动成功！");
         producer.sendMessage("spring-jms消息2");
     }
 }

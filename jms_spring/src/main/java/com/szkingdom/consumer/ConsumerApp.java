@@ -20,6 +20,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class ConsumerApp {
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring-activeMQ-consumer.xml");
-
+        System.out.println("消费者启动成功！");
     }
 }
